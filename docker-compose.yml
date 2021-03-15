@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+  redoc:
+    image: redocly/redoc
+    ports:
+      - 8080:80
+    environment:
+      SPEC_URL: swagger.yaml
+    volumes:
+      - ./demo-api.yaml:/usr/share/nginx/html/swagger.yaml
+
+  prism:
+    image: stoplight/prism:3
+    ports:
+      - 4010:4010
+    volumes:
+      - ./:/app
+    command: mock -h 0.0.0.0 /app/demo-api.yaml
+
+
